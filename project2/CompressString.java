@@ -24,136 +24,136 @@
  */
 public class CompressString {
 
-	/**
-	 * Iterative algorithm to resolve this problem. This algorithm has a
-	 * complexity order in time and space terms equals to O(N) where N is the
-	 * number of chars in the input String. We've applied two guards, one for
-	 * null strings and other for input data with 0 or 1 char. The algorithm is
-	 * based on two pointers to the current and the previous char in the input
-	 * string and one counter to take the count of how many times the char is
-	 * inside the word. Whe the algorithm detects a char change, it writes in
-	 * the StringBuilder the compressed partial result.
-	 */
-	public String compress(String src) {
-		if (noNeedToCompare(src))
-			return src;
+  /**
+   * Iterative algorithm to resolve this problem. This algorithm has a
+   * complexity order in time and space terms equals to O(N) where N is the
+   * number of chars in the input String. We've applied two guards, one for
+   * null strings and other for input data with 0 or 1 char. The algorithm is
+   * based on two pointers to the current and the previous char in the input
+   * string and one counter to take the count of how many times the char is
+   * inside the word. Whe the algorithm detects a char change, it writes in
+   * the StringBuilder the compressed partial result.
+   */
+  public String compress(String src) {
+    if (noNeedToCompare(src))
+      return src;
 
-		StringBuilder stringBuilder = new StringBuilder();
-		int repeatedCharCounter = 1;
-		char previousChar = src.charAt(0);
-		for (int i = 1; i < src.length(); i++) {
-			char currentChar = src.charAt(i);
+    StringBuilder stringBuilder = new StringBuilder();
+    int repeatedCharCounter = 1;
+    char previousChar = src.charAt(0);
+    for (int i = 1; i < src.length(); i++) {
+      char currentChar = src.charAt(i);
 
-			if (isCharRepeated(previousChar, currentChar)) {
-				repeatedCharCounter++;
-			} else {
-				addChar(stringBuilder, previousChar);
-				if (repeatedCharCounter > 1) {
-					addCharCounter(stringBuilder, repeatedCharCounter);
-					repeatedCharCounter = 1;
-				}
-				previousChar = currentChar;
-			}
-		}
+      if (isCharRepeated(previousChar, currentChar)) {
+        repeatedCharCounter++;
+      } else {
+        addChar(stringBuilder, previousChar);
+        if (repeatedCharCounter > 1) {
+          addCharCounter(stringBuilder, repeatedCharCounter);
+          repeatedCharCounter = 1;
+        }
+        previousChar = currentChar;
+      }
+    }
 
-		appendLastCharIfNeeded(stringBuilder, repeatedCharCounter, previousChar);
+    appendLastCharIfNeeded(stringBuilder, repeatedCharCounter, previousChar);
 
-		return stringBuilder.toString();
-	}
+    return stringBuilder.toString();
+  }
 
-	private boolean noNeedToCompare(String src) {
-		return src.length() < 2;
-	}
+  private boolean noNeedToCompare(String src) {
+    return src.length() < 2;
+  }
 
-	private StringBuilder addCharCounter(StringBuilder stringBuilder, int repeatedCharCounter) {
-		return stringBuilder.append(repeatedCharCounter);
-	}
+  private StringBuilder addCharCounter(StringBuilder stringBuilder, int repeatedCharCounter) {
+    return stringBuilder.append(repeatedCharCounter);
+  }
 
-	/**
-	 * Time complexity O(n) Space complexity O(n) First while loop for finding
-	 * repeat groups, and inner while loop is for finding same characters
-	 */
-	public String compressAlternativeApproach(String src) {
-		if (noNeedToCompare(src))
-			return src;
-		int index = 0;
-		int count = 1;
-		StringBuilder stringBuilder = new StringBuilder();
-		while (index < src.length()) {
-			while (index < src.length() - 1) {
-				if (src.charAt(index) == src.charAt(index + 1)) {
-					index++;
-					count++;
-				} else {
-					addChar(stringBuilder, src.charAt(index));
-					addCharCounterIfNeeded(stringBuilder, count);
-					count = 1;
-					index++;
-					// System.out.print(index);
-					break;
-				}
-			}
-			if (index == src.length() - 1) {
-				if (src.charAt(index) != src.charAt(index - 1)) {
-					addChar(stringBuilder, src.charAt(index));
-				} else {
-					addChar(stringBuilder, src.charAt(index));
-					addCharCounterIfNeeded(stringBuilder, count);
-				}
-				index++;
-				break;
-			}
-		}
-		return stringBuilder.toString();
-	}
+  /**
+   * Time complexity O(n) Space complexity O(n) First while loop for finding
+   * repeat groups, and inner while loop is for finding same characters
+   */
+  public String compressAlternativeApproach(String src) {
+    if (noNeedToCompare(src))
+      return src;
+    int index = 0;
+    int count = 1;
+    StringBuilder stringBuilder = new StringBuilder();
+    while (index < src.length()) {
+      while (index < src.length() - 1) {
+        if (src.charAt(index) == src.charAt(index + 1)) {
+          index++;
+          count++;
+        } else {
+          addChar(stringBuilder, src.charAt(index));
+          addCharCounterIfNeeded(stringBuilder, count);
+          count = 1;
+          index++;
+          // System.out.print(index);
+          break;
+        }
+      }
+      if (index == src.length() - 1) {
+        if (src.charAt(index) != src.charAt(index - 1)) {
+          addChar(stringBuilder, src.charAt(index));
+        } else {
+          addChar(stringBuilder, src.charAt(index));
+          addCharCounterIfNeeded(stringBuilder, count);
+        }
+        index++;
+        break;
+      }
+    }
+    return stringBuilder.toString();
+  }
 
-	private boolean isCharRepeated(char previousChar, char currentChar) {
-		return currentChar == previousChar;
-	}
+  private boolean isCharRepeated(char previousChar, char currentChar) {
+    return currentChar == previousChar;
+  }
 
-	private void appendLastCharIfNeeded(StringBuilder stringBuilder, int repeatedCharCounter, char previousChar) {
-		if (repeatedCharCounter > 1) {
-			addChar(stringBuilder, previousChar);
-			addCharCounter(stringBuilder, repeatedCharCounter);
-		}
-	}
+  private void appendLastCharIfNeeded(StringBuilder stringBuilder, int repeatedCharCounter, char previousChar) {
+    if (repeatedCharCounter > 1) {
+      addChar(stringBuilder, previousChar);
+      addCharCounter(stringBuilder, repeatedCharCounter);
+    }
+  }
 
-	/**
-	 * Tail recursive solution to this problem. The complexity order in time and
-	 * space terms of this recursive version is the same than te previous one.
-	 */
-	public String compressRecursive(String src) {
+  /**
+   * Tail recursive solution to this problem. The complexity order in time and
+   * space terms of this recursive version is the same than te previous one.
+   */
+  public String compressRecursive(String src) {
 
-		if (noNeedToCompare(src))
-			return src;
+    if (noNeedToCompare(src))
+      return src;
 
-		return compressRecursiveInner(src, new StringBuilder(), 1, src.charAt(0), 1);
-	}
+    return compressRecursiveInner(src, new StringBuilder(), 1, src.charAt(0), 1);
+  }
 
-	private String compressRecursiveInner(String src, StringBuilder sb, int i, char previousChar, int charCounter) {
-		boolean thereIsNoMoreWordToCompress = i == src.length();
-		if (thereIsNoMoreWordToCompress == true) {
-			addChar(sb, previousChar);
-			addCharCounterIfNeeded(sb, charCounter);
-			return sb.toString();
-		} else {
-			if (isCharRepeated(src.charAt(i), previousChar)) {
-				return compressRecursiveInner(src, sb, i + 1, previousChar, charCounter + 1);
-			} else {
-				addChar(sb, previousChar);
-				addCharCounterIfNeeded(sb, charCounter);
-				return compressRecursiveInner(src, sb, i + 1, src.charAt(i), 1);
-			}
-		}
-	}
+  private String compressRecursiveInner(String src, StringBuilder sb, int i, char previousChar, int charCounter) {
+    boolean thereIsNoMoreWordToCompress = i == src.length();
+    if (thereIsNoMoreWordToCompress == true) {
+      addChar(sb, previousChar);
+      addCharCounterIfNeeded(sb, charCounter);
+      return sb.toString();
+    } else {
+      if (isCharRepeated(src.charAt(i), previousChar)) {
+        return compressRecursiveInner(src, sb, i + 1, previousChar, charCounter + 1);
+      } else {
+        addChar(sb, previousChar);
+        addCharCounterIfNeeded(sb, charCounter);
+        return compressRecursiveInner(src, sb, i + 1, src.charAt(i), 1);
+      }
+    }
+  }
 
-	private void addCharCounterIfNeeded(StringBuilder sb, int charCounter) {
-		if (charCounter > 1) {
-			addCharCounter(sb, charCounter);
-		}
-	}
+  private void addCharCounterIfNeeded(StringBuilder sb, int charCounter) {
+    if (charCounter > 1) {
+      addCharCounter(sb, charCounter);
+    }
+  }
 
-	private void addChar(StringBuilder sb, char previousChar) {
-		sb.append(previousChar);
-	}
+  private void addChar(StringBuilder sb, char previousChar) {
+    sb.append(previousChar);
+  }
 }
