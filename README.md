@@ -1,2 +1,2 @@
 # code_review
-code review practice
+repository for code review practice
