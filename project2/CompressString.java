@@ -35,12 +35,14 @@ public class CompressString {
    * the StringBuilder the compressed partial result.
    */
   public String compress(String src) {
-    if (noNeedToCompare(src))
+    if (noNeedToCompare(src)) {
       return src;
+    }
 
     StringBuilder stringBuilder = new StringBuilder();
     int repeatedCharCounter = 1;
     char previousChar = src.charAt(0);
+    
     for (int i = 1; i < src.length(); i++) {
       char currentChar = src.charAt(i);
 
@@ -74,11 +76,14 @@ public class CompressString {
    * repeat groups, and inner while loop is for finding same characters
    */
   public String compressAlternativeApproach(String src) {
-    if (noNeedToCompare(src))
+    if (noNeedToCompare(src)) {
       return src;
+    }
+    
     int index = 0;
     int count = 1;
     StringBuilder stringBuilder = new StringBuilder();
+    
     while (index < src.length()) {
       while (index < src.length() - 1) {
         if (src.charAt(index) == src.charAt(index + 1)) {
@@ -89,7 +94,6 @@ public class CompressString {
           addCharCounterIfNeeded(stringBuilder, count);
           count = 1;
           index++;
-          // System.out.print(index);
           break;
         }
       }
@@ -123,15 +127,16 @@ public class CompressString {
    * space terms of this recursive version is the same than te previous one.
    */
   public String compressRecursive(String src) {
-
-    if (noNeedToCompare(src))
+    if (noNeedToCompare(src)) {
       return src;
+    }
 
     return compressRecursiveInner(src, new StringBuilder(), 1, src.charAt(0), 1);
   }
 
   private String compressRecursiveInner(String src, StringBuilder sb, int i, char previousChar, int charCounter) {
     boolean thereIsNoMoreWordToCompress = i == src.length();
+    
     if (thereIsNoMoreWordToCompress == true) {
       addChar(sb, previousChar);
       addCharCounterIfNeeded(sb, charCounter);
