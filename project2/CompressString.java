@@ -168,3 +168,4 @@ public class CompressString {
     sb.append(previousChar);
   }
 }
+
